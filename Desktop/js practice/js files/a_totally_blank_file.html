@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<canvas id="canvasDemo" height="400" width="300">
+			Not Supported
+		</canvas>
+	</body>
+</html>
+<script>
+	var canvas = document.getElementById("canvasDemo");
+	var context = canvas.getContext("2d");
+	context.arc(100,120,20,0,Math.PI,true);
+	context.stroke();
+	context.moveTo(30,70);
+	context.lineTo(30,90);
+	context.stroke();
+	context.strokeStyle = "black";
+	context.moveTo(175,70);
+	context.lineTo(175,90);
+	context.stroke();
+	context.strokeStyle = "black";
+	context.moveTo(135,25);
+	context.lineTo(110,30);
+	context.stroke();
+	context.strokeStyle = "black";
+	context.moveTo(65,25);
+	context.lineTo(90,30);
+	context.stroke();
+	context.strokeStyle = "black";
+	context.moveTo(100,50);
+	context.lineTo(100,55);
+	context.stroke();
+</script>

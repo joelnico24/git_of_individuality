@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sounds</title>
+</head>
+<body>
+<script>
+var audio = new Audio("fart.mp3");
+//var audio2 = new Audio("yell.mp3");
+var audio3 = new Audio("meow_meow.mp3");
+var canvas = document.createElement("canvas");
+var context = canvas.getContext("2d");
+canvas.height = 670;
+canvas.width = 1260;
+document.body.appendChild(canvas);
+
+
+
+var keyClick = {};
+document.addEventListener("keydown", function(event) {
+	keyClick[event.keyCode] = true;
+	noises(keyClick);
+}, false);
+
+document.addEventListener("keyup", function(event) {
+	delete keyClick[event.keyCode];
+}, false);
+
+function noises(keyClick) {
+	if (70 in keyClick) {
+		audio.play(); 
+	} else if (77 in keyClick) {
+		audio3.play();
+	}
+	//else if (89 in keyClick) {
+		//audio2.play();
+	//}
+}
+</script>
+</body>
+</html>

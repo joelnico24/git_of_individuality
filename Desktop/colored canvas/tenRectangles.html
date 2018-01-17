@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ten rectangles</title>
+</head>
+<style>
+	canvas {
+		border: solid 5px #000;
+	}
+</style>
+<body>
+<script>
+	var square = {
+		x: 480,
+		y: 480,
+		speed: 5
+	}
+	var rectangle1 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle2 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle3 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle4 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle5 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle6 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle7 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle8 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle9 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+	var rectangle10 = {
+		x: myNum(460),
+		y: myNum(460)
+	}
+
+	var canvas = document.createElement("canvas");
+	var context = canvas.getContext("2d");
+	document.body.appendChild(canvas);
+	canvas.width = 500;
+	canvas.height = 500;
+
+	var keyClick = {};
+	document.addEventListener("keydown", function(event) {
+		keyClick[event.keyCode] = true;
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		squares(keyClick);
+	}, false);
+
+	document.addEventListener("keyup", function(event) {
+		delete keyClick[event.keyCode];
+	}, false);
+
+	function squares(keyClick) {
+		if (37 in keyClick) {
+			square.x -= square.speed;
+		}
+		if (38 in keyClick) {
+			square.y -= square.speed;
+		}
+		if (39 in keyClick) {
+			square.x += square.speed;
+		}
+		if (40 in keyClick) {
+			square.y += square.speed;
+		}
+		context.fillStyle = "yellow";
+		context.fillRect(square.x, square.y, 20, 20);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle1.x, rectangle1.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle2.x, rectangle2.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle3.x, rectangle3.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle4.x, rectangle4.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle5.x, rectangle5.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle6.x, rectangle6.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle7.x, rectangle7.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle8.x, rectangle8.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle9.x, rectangle9.y, 40, 40);
+
+		context.fillStyle = "black";
+		context.fillRect(rectangle10.x, rectangle10.y, 40, 40);
+
+		/* if square collides with rectangle1, square disappears
+		if square collides with rectangle2, square disappears
+		if square collides with rectangle3, square disappears
+		if square collides with rectangle4, square disappears
+		if square collides with rectangle5, square disappears
+		if square collides with rectangle6, square disappears
+		if square collides with rectangle7, square disappears
+		if square collides with rectangle8, square disappears
+		if square collides with rectangle9, square disappears
+		if square collides with rectangle10, square disappears */
+	}
+
+	function myNum(n) {
+		return Math.floor(Math.random() * n);
+	}
+	squares(keyClick);
+</script>
+</body>
+</html>

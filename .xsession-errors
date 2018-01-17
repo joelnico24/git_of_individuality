@@ -1,0 +1,402 @@
+/etc/mdm/Xsession: Beginning session setup...
+localuser:joelnico24 being added to access control list
+/etc/mdm/Xsession: 3: [: xcinnamon: unexpected operator
+SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+=== xinerama setup Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: true
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+/usr/lib/blueberry/blueberry-tray.py:5: PyGIWarning: Gtk was imported without specifying a version first. Use gi.require_version('Gtk', '3.0') before import to ensure that the right version gets loaded.
+  from gi.repository import Gtk, Gdk, GnomeBluetooth, Gio
+/usr/lib/blueberry/blueberry-tray.py:5: PyGIWarning: GnomeBluetooth was imported without specifying a version first. Use gi.require_version('GnomeBluetooth', '1.0') before import to ensure that the right version gets loaded.
+  from gi.repository import Gtk, Gdk, GnomeBluetooth, Gio
+/usr/lib/nvidia-prime-applet/nvidia-prime:5: PyGIWarning: Gtk was imported without specifying a version first. Use gi.require_version('Gtk', '3.0') before import to ensure that the right version gets loaded.
+  from gi.repository import Gtk, Gdk
+sys:1: PyGIWarning: Nemo was imported without specifying a version first. Use gi.require_version('Nemo', '3.0') before import to ensure that the right version gets loaded.
+Cjs-Message: JS LOG: About to start Cinnamon
+
+(nm-applet:1513): libnotify-WARNING **: Failed to connect to proxy
+
+(nm-applet:1513): nm-applet-WARNING **: Failed to show notification: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: No such interface 'org.freedesktop.Notifications' on object at path /org/freedesktop/Notifications
+St-Message: cogl npot texture sizes SUPPORTED
+Cjs-Message: JS LOG: Cinnamon started at Tue Jan 16 2018 11:55:45 GMT-0500 (EST)
+openGL version 3.3 detected (GL3 Cogl Driver)
+MetaSyncRing disabled: couldn't find required GL extensions, or the minimum safe openGL version was not met
+failed to create drawable
+Cjs-Message: JS LOG: Invalid network device type, is 14
+Nemo-Share-Message: Called "net usershare info" but it failed: 'net usershare' returned error 255: mkdir failed on directory /var/run/samba/msg.lock: Permission denied
+net usershare: cannot open usershare directory /var/lib/samba/usershares. Error No such file or directory
+Please ask your system administrator to enable user sharing.
+
+mintUpdate: no process found
+nm-applet-Message: No keyring secrets found for Auto BCCS/802-11-wireless-security; asking user.
+Gtk-Message: GtkDialog mapped without a transient parent. This is discouraged.
+Cjs-Message: JS LOG: wireless_set_enabled
+Cjs-Message: JS LOG: wireless_set_enabled
+nm-applet-Message: No keyring secrets found for Auto BCCS/802-11-wireless-security; asking user.
+Gtk-Message: GtkDialog mapped without a transient parent. This is discouraged.
+[1516121738,000,xklavier.c:xkl_engine_start_listen/] 	The backend does not require manual layout management - but it is provided by the application
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== other setup Configuration ===
+  none
+=== xinerama setup Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== other setup Configuration ===
+  none
+=== xinerama setup Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== other setup Configuration ===
+  none
+=== xinerama setup Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+Nemo-Share-Message: Called "net usershare info" but it failed: 'net usershare' returned error 255: mkdir failed on directory /var/run/samba/msg.lock: Permission denied
+net usershare: cannot open usershare directory /var/lib/samba/usershares. Error No such file or directory
+Please ask your system administrator to enable user sharing.
+
+Loading Desklets module
+Loading Desklets module
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== other setup Configuration ===
+  none
+=== xinerama setup Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+=== Applying Configuration Configuration ===
+  Clone: false
+  Output: (null) attached to VGA-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+  Output: Laptop attached to LVDS
+     status: on
+     width: 1366
+     height: 768
+     rate: 60
+     primary: true
+     position: 0 0
+  Output: (null) attached to HDMI-0
+     status: off
+     width: -1
+     height: -1
+     rate: -1
+     primary: false
+     position: -1 -1
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed
+
+(nm-applet:1513): nm-applet-CRITICAL **: get_menu_item_for_ap: assertion 'dup_data.hash != NULL' failed

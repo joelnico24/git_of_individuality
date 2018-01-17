@@ -1,0 +1,73 @@
+<script>
+	//random number, unlimited guesses(unless you give up):functions
+	/* var randomNum, 	numGuess, giveUp;
+	var randomNumAndNumberGuess = function() {
+		randomNum = Math.floor(Math.random() * 10) + 1;
+		numGuess = prompt("guess a number between 1 and 10");
+		fakeWhileLoop();
+	}
+	var fakeWhileLoop = function() {
+		if (randomNum == numGuess) {
+			alert("yes");
+		} else {
+			alert("no");
+			giveUp = prompt("give up?");
+			if (giveUp == "yes") {
+				alert("the number was " + randomNum);
+			} else {
+				randomNumAndNumberGuess();
+			}
+		}
+	}
+	randomNumAndNumberGuess(); */
+
+
+	//calculator
+	/* var numOne, numTwo, type;
+	function nums() {
+		numOne = parseInt(prompt("enter a number"));
+		numTwo = parseInt(prompt("enter another number"));
+		type = prompt("do you want to add, subtract, multiply, or divide");
+		typeOfAction();
+	}
+	function typeOfAction() {
+		if (type == "+") {
+			alert(numOne + numTwo);
+		} else if (type == "-") {
+			alert(numOne - numTwo);
+		} else if (type == "*") {
+			alert(numOne * numTwo);
+		} else if (type == "/") {
+			alert(numOne / numTwo);
+		} else {
+			alert("I don't understand");
+			nums();
+		}
+	}
+	nums(); */
+
+	//practice with objects
+	/* var friend = {name: "", age: ""};
+	var friends = [];
+	function addFriend() {
+		friend.name = prompt("enter the name of a friend");
+		friend.age = prompt("enter the age a friend");
+		createFriend();
+	} */
+
+	/* var rules = [];
+	var rule;
+	for (i = 0; i < 10; i++) {
+		rule = prompt("make a rule");
+		rules.push(rule);
+	}
+	alert("these are the ten commandments: " + rules); */
+
+	var animalAlphabet = ["australian brush turkey", "bongo", "cormorant", "dung beetle", "elephant", "fish", "goat", "hippopotamus", "iguana", "jaguar", "koala", "lizard", "monkey", "narwhal", "octopus", "platypus", "quail", "rhinoceros", "snake", "tiger", "uakari", "vulture", "walrus", "xantus", "yak", "zebu"];
+
+	var randomNum = function() {
+		return Math.floor(Math.random() * 26);
+	}
+
+	alert(animalAlphabet[randomNum()]);
+</script>

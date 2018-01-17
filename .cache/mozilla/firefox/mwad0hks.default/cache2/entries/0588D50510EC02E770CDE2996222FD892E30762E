@@ -1,0 +1,495 @@
+var isClearMessage = false;
+var comingFromPfinder = false;
+var hadError = false;
+var product_name_for_search;
+//New property to get actual value excluding ghost text with trim()
+jQuery.fn.actualVal=function() {
+    if(this[0]) {
+        var ele=$(this[0]);
+        if(ele.attr('ghostText')!=''&&ele.val()==ele.attr('ghostText')) {
+            return '';
+        } else {
+           // return ele.val().trim();
+            return $.trim(ele.val());
+        }
+    }
+    return undefined;
+};
+
+//New property to get actual value excluding ghost text without trim();
+jQuery.fn.trueVal=function() {
+    if(this[0]) {
+        var ele=$(this[0]);
+        if(ele.attr('ghostText')!=''&&ele.val()==ele.attr('ghostText')) {
+            return '';
+        } else {
+            return ele.val();
+        }
+    }
+    return undefined;
+};
+
+
+//Create the error message inside the text box.
+createSearchErrorMessage = function(el, msg) {
+    if (!isClearMessage) {
+        var topOffset = $(el).position().top + 38;
+        $('<span class="errorMessage"><span class="errorIcon"></span>' + msg + '</span>').insertAfter(el);
+        $(el).addClass('errorElement');
+        $('.errorMessage').on('click', function(event) {
+            clearErrorMessage(el);
+            $('.search-input').parent().find('.errorMessage').remove();
+            $(el).focus();
+        });
+
+        $('#btnSplitSearchSubmit').focus();
+    } else {
+        isClearMessage = !isClearMessage;
+    }
+}
+
+
+//Validate the textboxes before completing form submit.
+//new
+var redirectToSearchResult = function(queryParam,additionalText,osVal,productVal,selectedProdName,classVal,overlay){
+    var query = queryParam["searchQuery"];
+    productVal = (checkValidity(queryParam["productVal"])) ? queryParam["productVal"] : productVal;
+    var pname = (checkValidity(queryParam["pName"])) ? queryParam["pName"] : "";
+    var filter = $("#searchCategory").length > 0 ? $("#searchCategory").val() : "-1";
+    var cc = getCCLC("cc");
+
+    var lc = getCCLC("lc");
+
+    var source = $("#source").val();
+    panme = encodeURIComponent(pname);
+
+    var lc = getCCLC("lc");
+
+
+    if(comingFromPfinder == true){
+        if(source == "swdPfinder"){  //Setting base URLs based on serach source-from driver pfinder
+        var searchRedirectLink = "//" +location.hostname +"/"+cc+"-"+lc+"/drivers/selfservice/identify";
+        }
+        else if(source == "contacthpPfinder"){  //Setting base URLs based on serach source-from contact-hp pfinder
+        	//Jerry--Convert lc into portal specific manually as internal conversion doesn't happen
+        	lc = localeConversion(cc,lc);
+            var searchRedirectLink = "//" +location.hostname +"/"+cc+"-"+lc+"/contact-hp/identify";
+            }
+        else if(source == "pdpPfinder"){  //Setting base URLs based on serach source-from contact-hp pfinder
+             var searchRedirectLink = "//" +location.hostname +"/"+cc+"-"+lc+"/products/identify";
+            }
+        else{
+            var searchRedirectLink = "//" +location.hostname +"/"+cc+"-"+lc+"/search";
+
+            }
+        }
+    else{
+        var searchRedirectLink = "//" +location.hostname +"/"+cc+"-"+lc+"/search";
+    }
+
+
+    panme = encodeURIComponent(pname);
+
+    if(query == ""){
+    	query = getParameterByName("q");
+    }
+    if(additionalText !== null && typeof additionalText !== "undefined" && additionalText !== "")
+    {
+        query = query + "+" + additionalText.trim();
+    }
+
+    query = encodeURIComponent(query); /*Encode the special characters like & or ? */
+
+    searchRedirectLink = searchRedirectLink + "?q=" + query +"&filter="+filter;
+
+    if(productVal !== null && typeof productVal != "undefined" && productVal !== "")
+    {
+        searchRedirectLink = searchRedirectLink +"&product=" + encodeURIComponent(productVal);
+
+        // so that java controller doesn't perform product search
+        searchRedirectLink = searchRedirectLink + "&predict=true";
+    }
+    else{ /*PDP page - pick up the product parameter from a hidden variable */
+    	if($("#pdpContextValue").length > 0 && $("#pdpContextValue").val() !== "" ){
+    		searchRedirectLink = searchRedirectLink +"&product=" + $("#pdpContextValue").val();
+
+    	}
+    }
+    if(pname !== null && typeof pname != "undefined" && pname !== "")
+    {
+        searchRedirectLink = searchRedirectLink +"&pname=" + encodeURIComponent(pname);
+    }
+    if(selectedProdName !== null && typeof selectedProdName != "undefined" && selectedProdName !== "")
+    {
+        searchRedirectLink = searchRedirectLink +"&selectedProduct=" + encodeURIComponent(selectedProdName);
+    }
+    if(osVal !== null && typeof osVal != "undefined" && osVal !== "")
+    {
+        searchRedirectLink = searchRedirectLink +"&os=" + encodeURIComponent(osVal);
+    }
+    if(classVal !== null && typeof classVal != "undefined" && classVal !== "")
+    {
+        searchRedirectLink = searchRedirectLink +"&class=" + encodeURIComponent(classVal);
+    }
+    if(overlay !== null && typeof overlay != "undefined" && overlay !== "")
+    {
+        if(overlay){
+            searchRedirectLink = searchRedirectLink +"&overlay=true";
+        }
+    }
+
+    return searchRedirectLink;
+}
+
+/* Defect 3590 pFinder button fix for fr-fr locale products page */
+function fixPfinderButtonFrLocale(){
+    var cc = getCCLC("cc");
+    var lc = getCCLC("lc");
+    /* Defect UAT 18 fix for other french Locales*/
+    if(( cc === "fr" && lc === "fr" ) || ( cc === "be" && lc === "fr" ) || ( cc === "ch" && lc === "fr" ) || ( cc === "emea_africa" && lc === "fr" ) ){
+        $("#grayBlockParent .form-outer div.findButton").css({
+            "padding-right":"1px",
+            "padding-left":"4px"
+        }).removeClass("col-lg-6").addClass("col-lg-7");
+
+        $("#grayBlockParent .form-outer div.hasTypeahead").removeClass("col-lg-18").addClass("col-lg-17");
+        $("#grayBlockParent .form-outer div.hasTypeahead").removeClass("col-md-20").addClass("col-md-18");
+        $("#grayBlockParent .form-outer div.hasTypeahead").removeClass("col-sm-17").addClass("col-sm-16");
+    }
+    if(cc === "br" && lc === "pt"){
+        $("#grayBlockParent .form-outer div.findButton").addClass(" brLocale");
+    }
+}
+/* Defect 3590 */
+
+$(document).ready(function(){
+
+    // calling here this method for now, need to move defination and calling to a Global themes
+    handleSearchBannerText();
+
+    /* Defect 3590 pFinder button fix for fr-fr locale products page */
+    fixPfinderButtonFrLocale();
+    /* Defect 3590 */
+
+    /* Defect 3569 focus on SN/PN input field SWD page when modal closes */
+    $('#serial-number-modal').on('hidden.bs.modal [data-dismiss="modal"]', function (event) {
+        $("#tooltipPadPfinder").focus();
+    });
+    /* Defect 3569 end */
+
+    /* Defect 3145 Added scroll to make options in typeahead visible */
+    $("#search-input-pfinder").on("focus",function(){
+        if( $(window).width() < 801 ){
+            $("html, body").animate({
+                scrollTop: $("#grayBlockParent").offset().top
+            }, "slow");
+        }
+        /*
+        * defect d-UAT-9: remove top scrolling from tablet/Laptop
+        else{
+            $("html, body").animate({
+                scrollTop: $("#grayBlockParent").offset().top
+            }, "slow");
+        }*/
+    });
+    /* Defect 3145 End */
+
+    /* defect 3122 start */
+    $('.pfinder-search').keyup(function(){
+      if($(this).val().length > 0){
+            $(".searchSubmit.findBtn").attr("disabled",false);
+            /*3409: start*/
+            $(".searchSubmit.findBtn").attr("aria-disabled",false);
+            /*3409: end*/
+        }
+        else{
+            $(".searchSubmit.findBtn").attr("disabled",true);
+            /*3409: start*/
+            $(".searchSubmit.findBtn").attr("aria-disabled",true);
+            /*3409: start*/
+        }
+    });
+    /* defect 3122 end */
+
+		// new enter icon in mobile for pfinder submit - on click of icon, submit form
+		$(".pfinder-mobile-btn").on("click",function(event){
+			$(this).parents($("#original-support")).submit();
+		});
+
+		$(".pfinder-mobile-enter-icon").on("click",function(event){
+			$(this).parents($("#original-support")).submit();
+		});
+
+    var pageIdentifierName = $('#pageIdentifier').val().toLowerCase();
+
+    if(pageIdentifierName == 'pfinderresults' || pageIdentifierName =='searchresult' || pageIdentifierName =='contact hp - anonymous' || pageIdentifierName =='swdpfinderbadresults' || pageIdentifierName =='swdselfservice' || pageIdentifierName == 'Product Home'){
+     getToolTipData(['#product-serial-number-modal','#serial-number-modal'], "#tooltip-template", "/hp-pps-services/content/tooltipdoc");
+    }
+    /*The below function is to automatically adjust the padding of text box according to blue dropdown. */
+	$("#search-dropdown").each(function(){
+		var dynamicDropdownHook = $(this).innerWidth() + 15;
+		if($("html").attr("dir")=="ltr"){
+			$(this).parents(".search-bg").find(".search-input").css("padding-left",dynamicDropdownHook);
+		}
+		else{
+			$(this).parents(".search-bg").find(".search-input").css("padding-right",dynamicDropdownHook);
+		}
+		$(this).parents(".search-bg").find(".typeaheadHook").val(dynamicDropdownHook); // Do not remove - VV
+		if($("body").hasClass("ie")){
+			$(this).parents(".search-bg").find(".search-input").focus();
+			$(this).parents(".search-bg").find(".search-input").blur();
+		}
+		/*setTimeout(function(){
+			$("#search-dropdown").parents(".search-bg").find(".search-input").addClass("clearfix");
+		},100); */
+	});
+	/* End*/
+
+
+    $('.search-input').focus(function() { /* This is to close the blue dropdown on focus of the textbox */
+        $(this).parents(".search-bg").find(".dropdown").removeClass("open");
+    });
+
+    $(".search-bar-form").each(function() {
+    	var comingFromTypeahead = false;
+        $(this).on("submit",function(event) {
+            //To differentiate between search and pfinder search
+            if($(this).find(".search-input").hasClass("pfinder-search")){
+                comingFromPfinder = true;
+            }
+        	var searchEl = $(this).find(".search-input");
+        	 if ($(searchEl).actualVal() == '') {
+        	        event.preventDefault();
+        	        if ($(searchEl).parent().find('.errorMessage').attr('class') != 'errorMessage') {
+        	            createSearchErrorMessage(searchEl,$(searchEl).attr('errormessage'));
+        	            //createErrorMessage('.search-input', $('.search-input').attr('errormessage'));
+        	        }
+        	    }
+        	 else{
+        		 event.preventDefault();
+        		 var searchParam = {};
+                 searchParam["searchQuery"] = $(searchEl).actualVal();
+                 if( checkValidity($(searchEl).data("productid")) && ($(searchEl).data("productid") != "")){
+                	 /* take the productVal from typeahead and send it to search. */
+                	 searchParam["productVal"] = $(searchEl).data("productid");
+                	 comingFromTypeahead = true;
+                 }
+                 else if(typeof category_nav_prod !=="undefined"){
+                	 /* take the productVal from drilldown and send it to search. */
+                	 searchParam["productVal"] = category_nav_prod;
+                 }
+                 else{
+                	 searchParam["productVal"] = "";
+                 }
+                 if(!(comingFromTypeahead)){
+                	 if(typeof productNameForSearch !=="undefined"){
+                    	 searchParam["pName"] = productNameForSearch;
+                     }
+                     else if($("#pm_series_product_name").length > 0 && checkValidity($("#pm_series_product_name").val())){
+                    	 if($("#pageIdentifier").val() != 'SearchResult'){
+                    		 searchParam["pName"] = $("#pm_series_product_name").val();
+                    	 }
+                     }
+                 }
+
+
+        		 var redirectSearchUrl = redirectToSearchResult(searchParam);
+        		 window.location.assign(redirectSearchUrl);
+        	 }
+        });
+    });
+
+
+	$('.icon-x').on('click',function(event){			//Handle question text clear(X) button events
+		event.preventDefault();
+		if ($(this).parent(".hasTypeahead").find(".predictive-results").length > 0) {
+            $(this).parent(".hasTypeahead").find(".predictive-results").remove();
+
+        }
+		var searchEl = $(this).parent().find(".search-input");
+		 if ($(searchEl).parent().find('.errorMessage').attr('class') == 'errorMessage') {
+	            hadError = true;
+	            clearErrorMessage($(this));
+	            $($(searchEl)).parent().find('.errorMessage').remove();
+	            $($(searchEl)).focus();
+	        }
+		abortAjaxUtil(); // abort any initiated ajax calls.
+		$(searchEl).siblings(".searching").hide();
+        $(searchEl).val('').focus();
+
+        /* defect 3122 start */
+        $(".searchSubmit.findBtn").attr("disabled",true);
+        $(".searchSubmit.findBtn").attr("aria-disabled",true);
+        /* defect 3122 end */
+	})
+	.on('keydown',function(event){
+		var eventKeyCode = event.keyCode ? event.keyCode : event.which;
+		if(eventKeyCode == 13 || eventKeyCode == 32){
+			event.preventDefault();
+
+			if(eventKeyCode == 13){
+				isClearMessage = !isClearMessage;
+			}
+                if ($(this).parent(".hasTypeahead").find(".predictive-results").length > 0) {
+                    $(this).parent(".hasTypeahead").find(".predictive-results").remove();
+
+                }
+                var searchEl = $(this).parent().find(".search-input");
+                if ($(searchEl).parent().find('.errorMessage').attr('class') == 'errorMessage') {
+       	            hadError = true;
+       	            clearErrorMessage($(this));
+       	            $($(searchEl)).parent().find('.errorMessage').remove();
+       	            $($(searchEl)).focus();
+       	        }
+	            abortAjaxUtil(); // abort any initiated ajax calls.
+	            $(searchEl).siblings(".searching").hide();
+	            $(searchEl).val('').focus();
+		}
+	});
+
+	$('.icon-x').on('click',function(event){			//Handle question text clear(X) button events
+		event.preventDefault();
+		$(this).hide();
+
+        if ($(this).parent(".hasTypeahead").find(".predictive-results").length > 0) {
+            $(this).parent(".hasTypeahead").find(".predictive-results").remove();
+            ($(this).parent(".hasTypeahead").find(".predictive-results").css("background", "#000"));
+        }
+        $(this).parent(".hasTypeahead").find('.search-input').val('').focus();
+
+        /* defect 3122 start */
+        $(".searchSubmit.findBtn").attr("disabled",true);
+        $(".searchSubmit.findBtn").attr("aria-disabled",true);
+        /* defect 3122 end */
+	})
+	.on('keydown',function(event){
+		var eventKeyCode = event.keyCode ? event.keyCode : event.which;
+		if(eventKeyCode == 13 || eventKeyCode == 32){
+			event.preventDefault();
+			$(this).hide();
+			if(eventKeyCode == 13){
+				isClearMessage = !isClearMessage;
+			}
+                if ($(this).parent(".hasTypeahead").find(".predictive-results").length > 0) {
+                    $(this).parent(".hasTypeahead").find(".predictive-results").remove();
+                    ($(this).parent(".hasTypeahead").find(".predictive-results").css("background", "#000"));
+                }
+                $(this).parent(".hasTypeahead").find('.search-input').val('').focus();
+		}
+	});
+
+	$('.search-input').each(function(){
+		  $(this).on('keyup', function(event) {
+			        var eventKeyCode = event.keyCode ? event.keyCode : event.which;
+			        /*  if (eventKeyCode == 13) {
+			           $('#btnSplitSearchSubmit').trigger('click');
+			        }   Commented to remove error message on clear from cross */
+			        if ($(this).parent().find('.errorMessage').attr('class') == 'errorMessage' && $(this).actualVal().length > 0) { //Clear error message from search box on keyup
+			            clearErrorMessage(this);
+			            $(this).parent().find('.errorMessage').remove();
+			        }
+			        if ($(this).actualVal().length > 0) {
+			        	$(this).parent(".hasTypeahead").find('.icon-x').show();
+			        } else if ($(this).actualVal().length == 0) {
+			        	$(this).parent(".hasTypeahead").find('.icon-x').hide();
+			        }
+			        if (eventKeyCode != 9) {
+			            hadError = true;
+			        }
+			    })
+			    .on('focus', function(event) {
+			        if ($(this).parent().find('.errorMessage').attr('class') == 'errorMessage') {
+			            hadError = true;
+			            clearErrorMessage($(this));
+			            $($(this)).parent().find('.errorMessage').remove();
+			            $($(this)).focus();
+			        }
+			    });
+
+	});
+
+
+	if($('body').hasClass('ie8')){
+		$('#original-support').submit(function(event){
+			validateFormData(event);
+		});
+	}
+});
+
+
+// keyboard handling search dropdown
+
+function handleSearchBannerText(){
+
+	var pageName = $('#pageIdentifier').val();
+    var $userName = $(".userFirstName");
+    var cc = getCCLC("cc");
+    var pToggle = $('#pToggle').val();
+
+    if(pToggle && pToggle == "on"){
+	    if (profileDetails && profileDetails.firstName) {
+	        // signed in user
+	
+	        var userName;
+	        if (cc == 'jp' || cc == 'kr') {
+	            userName = profileDetails.lastName;
+	        } else {
+	            userName = profileDetails.firstName;
+	        }
+	        $userName.html(userName);
+	
+	        // If page is home-page handles logged in or not case and mobile & desktop
+	        if (pageName == 'Support Home' && $(".signedInMessage").hasClass('hide')) {
+	            // Banner Part
+	            $(".signedInMessage").removeClass("hide"); // Showing Hi, user. What would you like help with?
+	            $('.defaultBannerMessage').addClass('hide');
+	
+	            // Added header manipulation code to show user name
+	            $(".welcomeMessageNew").removeClass("hide"); // showing Welcome, userName
+	            $(".signInRegisterLink").addClass("hide"); // hiding sign in / register
+	        }
+	        else if (pageName == 'Dashboard' || pageName == 'Add Device') {
+	            $(".dashboardMessage").removeClass("hide"); // showing Hi, user. welcome to your dashbaord
+	            $(".defaultBannerMessage").addClass("hide"); // showing Let us help you better by registering or signing in
+	
+	            // Added header manipulation code to show user name
+	            $(".welcomeMessageNew").removeClass("hide"); // showing Welcome, userName
+	            $(".signInRegisterLink").addClass("hide"); // hiding sign in / register
+	        } else {
+	            // for all other pages
+	            $(".welcomeMessageNew").removeClass("hide"); // showing Welcome, userName
+	            $(".signInRegisterLink").addClass("hide"); // hiding sign in / register
+	        }
+	
+	    } else {
+	        // not signed in user
+	
+	        // Banner manipulation
+	        $(".defaultBannerMessage").removeClass("hide"); // showing Let us help you better by registering or signing in
+	        $(".signedInMessage").addClass("hide");
+	        $(".dashboardMessage").addClass("hide");
+	
+	        // Header manipulation
+	        $(".signInRegisterLink").removeClass('hide'); // sign in - header
+	        $(".welcomeMessageNew").addClass("hide"); // welcome user, - header
+	    }
+    }else{
+    	
+    	// Personalization turned off for this locale
+    	// show the "Let us help you!" message instead
+    	$(".pTiggledOffBannerMsg").removeClass("hide");
+    }
+}
+lªº¹      Z[¾aZ] >¡³ñZdøà   V    :https://support.hp.com/wps/hp-hero-support-search/resources/scripts/splitSearchBox.js necko:classified 1 security-info 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 request-method GET request-Accept-Encoding gzip, deflate, br response-head HTTP/2.0 200 OK
+Server: nginx/1.10.3
+Content-Type: application/javascript
+Content-Length: 19840
+Last-Modified: Thu, 26 Oct 2017 01:42:13 GMT
+Vary: Accept-Encoding
+Etag: "59f13d75-4d80"
+Accept-Ranges: bytes
+Cache-Control: max-age=604800
+Expires: Sun, 21 Jan 2018 20:32:33 GMT
+Date: Sun, 14 Jan 2018 20:32:33 GMT
+X-Firefox-Spdy: h2
+ uncompressed-len 0   M€

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="home.css">
+	<title>Test</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+	var header = document.createElement("h1");
+
+	var list = document.createElement("ul");
+
+	var item1 = document.createElement("li");
+	var item2 = document.createElement("li");
+	var item3 = document.createElement("li");
+
+	item1.innerHTML = "Nike";
+	item2.innerHTML = "Cool";
+	item3.innerHTML = "Vans";
+
+	document.body.appendChild(header);
+	document.body.appendChild(list);
+
+	document.body.appendChild(item1);
+	document.body.appendChild(item2);
+	document.body.appendChild(item3);
+
+	list.id = "myList";
+
+	var breaktag = document.createElement("br");
+	document.body.appendChild(breaktag);
+
+
+
+
+
+
+
+
+
+
+	var table = document.createElement("table");
+
+	var tr1 = document.createElement("tr");
+	var tr2 = document.createElement("tr");
+
+	var th1 = document.createElement("th");
+	var th2 = document.createElement("th");
+	var th3 = document.createElement("th");
+
+	var td1 = document.createElement("td");
+	var td2 = document.createElement("td");
+	var td3 = document.createElement("td");
+
+	th1.innerHTML = "Bill";
+	th2.innerHTML = "Susan";
+	th3.innerHTML = "Ryan";
+
+	td1.innerHTML = "30";
+	td2.innerHTML = "40";
+	td3.innerHTML = "50";
+
+	document.body.appendChild(table);
+
+	table.appendChild(tr1);
+	table.appendChild(tr2);
+
+	tr1.appendChild(th1);
+	tr1.appendChild(th2);
+	tr1.appendChild(th3);
+
+	tr2.appendChild(td1);
+	tr2.appendChild(td2);
+	tr2.appendChild(td3);
+
+
+
+
+	function append(settext) {
+		header.innerHTML = settext;
+	}
+
+	var tested = prompt("Enter the text for header")
+	append(tested);
+
+
+
+
+	function setColor(color) {
+		header.classList.add(color);
+	}
+
+	var test = prompt("Enter the color for header");
+	setColor(test);
+
+
+
+	function setUlItem1(setul1) {
+		item1.innerHTML = setul1;
+	}
+
+	var testing = prompt("Enter the first item in your list");
+	setUlItem1(testing);
+
+
+
+	function setUlItem2(setul2) {
+		item2.innerHTML = setul2;
+	}
+
+	var testinged = prompt("Enter the second item in your list");
+	setUlItem2(testinged);
+
+
+
+	function setUlItem3(setul3) {
+		item3.innerHTML = setul3;
+	}
+
+	var testingeder = prompt("Enter the third item in your list");
+	setUlItem3(testingeder);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/* function addStuff(a, b) {
+		return a + b;
+	}
+
+	function multiplyStuff(a, b) {
+		return a * b;
+	}
+
+	function subtractStuff(a, b) {
+		return a - b;
+	}
+
+	function divideStuff(a, b) {
+		return a / b;
+	}
+
+	function calculator(a, b, method) {
+		var value;
+		if (method == "add") {
+			value = addStuff(a, b);
+		} else if (method == "multiply") {
+			value = multiplyStuff(a, b);
+		} else if (method == "subtract") {
+			value = subtractStuff(a, b);
+		} else if (method == "divide") {
+			value = divideStuff(a, b);
+		}
+		return value;
+	}
+
+	var total = calculator(4, 2, "divide");
+	console.log(total); */
+</script>

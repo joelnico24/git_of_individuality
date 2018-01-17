@@ -1,0 +1,102 @@
+<script>
+	/* var numOne, numTwo, func;
+	function asking() {
+		numOne = parseInt(prompt("enter a number"));
+		func = prompt("what function do you want to use");
+		numTwo = parseInt(prompt("enter another number"));
+		types();
+	}
+	function types() {
+		if (func == "+") {
+			alert(numOne + numTwo);
+		} else if (func == "-") {
+			alert(numOne - numTwo);
+		} else if (func == "*") {
+			alert(numOne * numTwo);
+		} else if (func == "/") {
+			alert(numOne / numTwo);
+		} else {
+			alert("that's not a function");
+			asking();
+		}
+	}
+	asking(); */
+
+	//zero to infinity
+	/* var num = 0;
+	while (true == true) {
+		alert(num);
+		num += 1;
+	} */
+
+	//choice of favorite soda
+	/* var choice, choiceTwo, choiceThree;
+	var firstChoice = function() {
+		choice = prompt("which is your favorite: diet soda or regular soda");
+		if (choice == "diet") {
+			secondChoice();
+		} else if (choice == "regular") {
+			thirdChoice();
+		} else {
+			alert("what do you mean");
+			firstChoice();
+		}
+	}
+	var secondChoice = function() {
+		choiceTwo = prompt("what is your favorite diet soda");
+		alert("your favorite kind of diet soda is " + choiceTwo);
+	}
+	var thirdChoice = function() {
+		choiceThree = prompt("what is your favorite regular soda");
+		alert("your favorite kind of regular soda is " + choiceThree);
+	}
+	firstChoice(); */
+
+
+
+
+
+	/* var ask, question, random;
+	var girls = ["Becky", "Sarah", "Danielle", "Anna", "Mia"];
+	var boys = ["Joel", "Aaron", "Kort", "Ian", "Micah"];
+	var randomNum = function() {
+		random = Math.floor(Math.random() * 5);
+		return random;
+	}
+	var asking = function() {
+		question = prompt("are you a boy or a girl");
+		if (question == "boy") {
+			ask = prompt("do you want to kiss, hug, or marry");
+			if (ask == "kiss") {
+				alert("you will kiss " + girls[randomNum()]);
+			} else if (ask == "hug") {
+				alert("you will hug " + girls[randomNum()]);
+			} else if (ask == "marry") {
+				alert("you will marry " + girls[randomNum()]);
+			}
+		} else if (question == "girl") {
+			ask = prompt("do you want to kiss, hug, or marry");
+			if (ask == "kiss") {
+				alert("you will kiss " + boys[randomNum()]);
+			} else if (ask == "hug") {
+				alert("you will hug " + boys[randomNum()]);
+			} else if (ask == "marry") {
+				alert("you will marry " + boys[randomNum()]);
+			}
+		}
+		asking();
+	}
+	asking(); */
+
+	var arrayOne = ["the jiggly wiggly buttcheeks", "your stupid face", "my unluckily squashed booty", "hillary clinton's obese butt", "obama's broken hips", "a goatee", "bccs"];
+	var arrayTwo = ["died suddenly", "got crushed", "appeared to be living" ,"puked on your broken leg", "ate a random buttcheek", "jumped under a tree", "died in a hole"];
+	var arrayThree = ["because obama was president", "under my shoe", "inside your useless brain", "above the mansion's doorway", "underneath the sky", "away from mankind", "on my head"];
+	var randomNum = function() {
+		return Math.floor(Math.random() * 7);
+	}
+	var alerting = function() {
+		alert(arrayOne[randomNum()] + " " + arrayTwo[randomNum()] + " " + arrayThree[randomNum()]);
+		alerting();
+	}
+	alerting();
+</script>

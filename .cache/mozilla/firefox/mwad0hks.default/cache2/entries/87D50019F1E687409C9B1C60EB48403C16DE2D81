@@ -1,0 +1,849 @@
+var newDocID;
+var flagSet = false;	//a global variable, its value changes on click of "Change Country" link(src file - MightyTwoUniversalChatForm.jsp)
+var autoCLCPopup = false; // This flag sets to true if openCLC=true was present in the URL before the CLC popup ws closed
+function changeOpenClcFlag(){
+	if(window.location.href.indexOf("?openCLC=true") == -1) {
+		autoCLCPopup = false;
+	}
+	else{
+		autoCLCPopup = true;
+	}
+}
+
+$(document).ready(function(){
+	// $("#dvCountryLink").on("click", function(){
+	// 	flagSet=true;
+	// 	$('#dvCountrySelector').trigger('click');
+	// });
+	//TODO: Dirty fix for CLC section placing in R1 pages. Need to revisit the same.
+	placeClcSection();
+	$('#clc-modal').on('hidden.bs.modal [data-dismiss="modal"]', function (event) {
+		if($("#pageIdentifier").val()=="Contact HP Product Context View"){
+			// var flagSet;
+			if(flagSet==true || $('#dvCountryLink').data('clicked')){
+				$("#dvCountryLink").delay(100).trigger('focus');
+
+				flagSet=false;
+			}
+			else{
+				if(!autoCLCPopup) {	// A check to see if we had openCLC=true in URL before the CLC popup was closed, if we have, we won't focus on CLC carrot at the bottom of the page.
+					$('#btnCountryPopup').focus();
+				}
+				else{
+					if($(".hf_logo.link_metrics").length == 1){ //Checking if HP Logo is present
+						$(".hf_logo.link_metrics").focus();		//Focus on the HP logo for accessibility(only when openCLC=true)
+					}
+					else{	//Fallback if header logo is not present or the class changed
+						if($(".dropdown-toggle.mobile-nav-toggle").is(":visible")){	//Checking if Mobile View Secondary Nav is present
+							$(".dropdown-toggle.mobile-nav-toggle").focus();		//Focusing on Mobile View Secondary Nav
+						}
+						else{
+							$($(".dropdown-menu.mobile-nav-wrapper > .container > ul > li > a")[0]).focus();	//Focusing on the first element of the secondary nav(Desktop View)
+						}
+					}
+				}
+	    	}
+		}
+		else{
+			if(!autoCLCPopup) {	// A check to see if we had openCLC=true in URL before the CLC popup was closed, if we have, we won't focus on CLC carrot at the bottom of the page.
+				$('#btnCountryPopup').focus();
+			}
+			else{
+				if($(".hf_logo.link_metrics").length == 1){	//Checking if HP Logo is present
+					$(".hf_logo.link_metrics").focus();		//Focus on the HP logo for accessibility(only when openCLC=true)
+				}
+				else{	//Fallback if header logo is not present or the class changed
+					if($(".dropdown-toggle.mobile-nav-toggle").is(":visible")){	//Checking if Mobile View Secondary Nav is present
+						$(".dropdown-toggle.mobile-nav-toggle").focus();		//Focusing on Mobile View Secondary Nav
+					}
+					else{
+						$($(".dropdown-menu.mobile-nav-wrapper > .container > ul > li > a")[0]).focus();	//Focusing on the first element of the secondary nav(Desktop View)
+					}
+				}
+			}
+		}
+    });
+
+	$('#clc-choose-country .hp-row h3').matchHeight();
+	$('#dvLocatorSelector').on('tap click',function(event){
+		 $('#dvClcLocaleSelect').addClass('active');
+		 $('#dvClcLocale').show();
+	});
+
+	$('#closeButton').on('tap click',function(event){ //To close pop-up when close button is clicked
+		$('#dvClcModal').hide();
+		var docLocation = document.location.href;
+		changeOpenClcFlag();
+		history.pushState(null, null, docLocation.replace('?openCLC=true',''));
+	});
+
+	$(document).keyup(function(e) {
+        if (e.keyCode == 27) { // esc keycode
+        	$('#dvClcModal').hide();
+        	ModalClose();
+        }
+    });
+
+	$('#confirm-language').on('tap click',function(event){
+		var cc = getCCLC('cc');
+		var lc = getCCLC('lc');
+
+
+		var selectedCC = $('#clcSelectedCountry').attr('countrycode');
+		var selectedLC = $(".selectedCountryLang span").data("languagecode");
+		// var selectedLC = $('.available-languages .selected').attr('languagecode');
+
+		clearSession();
+
+		if(selectedLC == 'zh-hant' || selectedLC == 'zh-hans'){
+			selectedLC = 'zh';
+		}
+
+		if(cc != selectedCC || lc != selectedLC){
+			var actualCCLC = 'com/'+cc+'-'+lc;
+			var newCCLC = 'com/'+selectedCC+'-'+selectedLC;
+			var pageIdentifier2 = $('#pageIdentifier').val().toLowerCase();
+			if(pageIdentifier2 == 'searchresult'){
+				document.location.href = location.protocol+'//'+location.hostname+'/'+selectedCC+'-'+selectedLC;
+			}
+			else if(pageIdentifier2 == 'concentrawrapper'){
+			  if (lc == selectedLC){
+			    // document.location.href = document.location.href.replace(actualCCLC,newCCLC);
+			     // the above line is commented and below code is Added for  ALM(12446)
+				  if(window.location.href.indexOf("?openCLC=true") > -1) {
+					   document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace("?openCLC=true","");//To remove clc from url
+					}
+				  else
+					  {
+			     document.location.href = document.location.href.replace(actualCCLC,newCCLC);
+					  }
+				  //End of ALM(12446)
+				 var url = document.URL;
+
+				 if(lc == 'zh'){
+					  checkConcentraFlow();
+					  }
+					if(window.location.href.indexOf("?docNotFound=true") > -1) {
+					   document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace("?docNotFound=true","");
+					}
+
+			  }
+
+
+			  else{
+			     checkConcentraFlow();
+				 }
+			}
+
+			else{
+
+				if(window.location.href.indexOf("?openCLC=true") > -1) {
+					   document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace("?openCLC=true","");
+					}
+				else{document.location.href = document.location.href.replace(actualCCLC,newCCLC);}
+			}
+		}
+		else{
+			$(".modal").modal("hide");
+			var docLocation = document.location.href;
+			changeOpenClcFlag();
+	 		history.pushState(null, null, docLocation.replace('?openCLC=true',''));
+		}
+
+
+	});
+
+
+
+	$(document).on('tap click','#clc-choose-country .country-options a', function(e) {
+	    e.preventDefault();
+		$('#selectedCountryFlag').removeClass().addClass('flag');
+		$('#clcSelectedCountry').empty();
+	    var selectedCountry = $(this).text();
+		var countryCode1 = $(this).siblings(".clcCountriesFlag").attr("rel");
+	    var selectedCountryFlag = $(this).siblings('.flag').attr('class');
+	    var totalLanguages = $('#clc-choose-language .language-options li').size();
+		$('#selectedCountryFlag').addClass(selectedCountryFlag);
+        $('#clcSelectedCountry').append(selectedCountry).attr('countrycode',countryCode1);
+
+
+	    // Count the number of supported languages
+	    // and display them in the modal-title
+	    $('#totalLanguages').text(totalLanguages);
+
+	    $(".country-options li").removeClass("selectedCountryLang");
+	    $(this).parent().addClass("selectedCountryLang");
+	    handleCountryPopupCountryClick();
+
+	});
+});
+
+function handleCountryPopupCountryClick(){
+	var cc = getCCLC('cc');
+	var lc = getCCLC('lc');
+
+
+		// var selectedCC = $('#clcSelectedCountry').attr('countrycode');
+		var selectedCC = $(".selectedCountryLang span").attr("rel");
+		// var selectedLC = $('.available-languages .selected').attr('languagecode');
+		var selectedLC = $(".selectedCountryLang span").data("languagecode");
+
+		clearSession();
+
+		if(selectedLC == 'zh-hant' || selectedLC == 'zh-hans'){
+			selectedLC = 'zh';
+		}
+
+		if(cc != selectedCC || lc != selectedLC){
+			var actualCCLC = 'com/'+cc+'-'+lc;
+			var newCCLC = 'com/'+selectedCC+'-'+selectedLC;
+			var pageIdentifier2 = $('#pageIdentifier').val().toLowerCase();
+			if(pageIdentifier2 == 'searchresult'){
+				document.location.href = location.protocol+'//'+location.hostname+'/'+selectedCC+'-'+selectedLC;
+			}
+			else if(pageIdentifier2 == 'concentrawrapper'){
+			  if (lc == selectedLC){
+			     document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace("?openCLC=true","");
+				 var url = document.URL;
+
+				 if(lc == 'zh'){
+					  checkConcentraFlow();
+					  }
+					if(window.location.href.indexOf("?docNotFound=true") > -1) {
+					   document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace("?docNotFound=true","");
+					}
+
+			  }
+
+
+			  else{
+			     checkConcentraFlow();
+				 }
+			}
+
+			else{
+
+				if(window.location.href.indexOf("?openCLC=true") > -1) {
+					   document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace("?openCLC=true","");
+					}
+				else{document.location.href = document.location.href.replace(actualCCLC,newCCLC);}
+			}
+		}
+		else{
+			$(".modal").modal("hide");
+			var docLocation = document.location.href;
+			changeOpenClcFlag();
+	 		history.pushState(null, null, docLocation.replace('?openCLC=true',''));
+
+		}
+}
+
+function placeClcSection(){ //Please remove this with proper fix in css for r1
+	var pageIdentifier = $('#pageIdentifier').val().toLowerCase();
+	if(pageIdentifier != "support home" && pageIdentifier != "product home" && pageIdentifier != "software & driver" && $('#dvClcSection').parents('[name]').attr('name') == "servicesCol"){
+		$('#dvClcSection').addClass('clcR1PositionCorrection');
+	}
+}
+
+
+
+
+function getProductNameOid(){
+
+	var pageIdentifier = $('#pageIdentifier').val().toLowerCase();
+	if(pageIdentifier == "product details page" || pageIdentifier.toLowerCase() == "swdselfservicestep"){
+		if ($('#productARresponse').val().length > 0){
+			var OID =$.parseJSON($('#productARresponse').val());
+			return OID.supportNameOid;
+		}
+	 }
+		 else{
+		   return "";
+		}
+
+	/*var productNameOid = document.location.href.split('model/')[1];
+	var temp="";
+	var i=0;
+	if(productNameOid != "" || productNameOid != "undefined"){
+		if(isNaN(productNameOid)){
+			while(i<productNameOid.length){
+				if(!isNaN(productNameOid[i])){
+					temp+=productNameOid[i];
+				}
+				else{
+					i = productNameOid.length;
+				}
+				i+=1;
+			}
+			productNameOid = temp;
+		 }
+
+		return productNameOid;
+	}*/
+
+
+}
+
+
+function countrylistFetch(url,selectedCC, returnData){
+	var siteAreaForCLC = "";
+	if($("#pageIdentifier").val() == "HP Microsite"){
+		var urlSplitArrCLC = window.location.pathname.split("/");
+		siteAreaForCLC = "?siteArea="+urlSplitArrCLC[3];
+		var queryParams = window.location.search;
+		var previewString ="previewReq=true";
+		if(queryParams && queryParams.match(previewString)){
+			siteAreaForCLC += ("&"+previewString);
+		}
+	}
+	var cc = getCCLC('cc');
+	var lc = getCCLC('lc');
+	var productNameOid = $('#tmsClassForSearch').length > 0 && $('#tmsClassForSearch').val() != "pm_series_value" ? getProductNameOid() : "";
+	var dataJson = {
+					 'cc' : cc,
+					 'lc' : lc,
+					 'productNameOid' : productNameOid
+				 }
+	var requestJson = JSON.stringify(dataJson);
+	$.ajax({
+	  	data:{
+	  		'page': $("#pageIdentifier").val()
+	  	},
+        url: url+siteAreaForCLC,
+        //url: "/hp-pps-services/clc/cc/"+cc+"/lc/"+lc,
+        type: 'GET',
+        datatype:'json',
+        success: function(data){
+
+            // var jsonData = $.parseJSON(data);
+            var jsonData = data;
+			if (returnData == false) {
+				resetViewsAndClasses();
+				createCountrySection(jsonData);
+				if(window.location.href.indexOf("?openCLC=true") > -1) {
+					$('#clc-modal').modal();
+				}
+				// resize when any column is empty
+
+				if( $('#dvAmerica .hp-row ul:empty').length ){
+					$('#dvAmerica').remove();
+				}
+				if( $('#dvAsia .hp-row ul:empty').length ){
+					$('#dvAsia').remove();
+				}
+				if( $('#dvEmea_africa .hp-row ul:empty').length ){
+					$('#dvEmea_africa').remove();
+				}
+
+				if ($(".country-group").length == 1){
+				   $('#clc-choose-country').parent(".modal-dialog").removeClass('modal-xl').addClass('modal-sm');
+				   $('.country-group').removeClass('col-lg-8').removeClass('col-lg-4').addClass('col-lg-24');
+				}
+
+				if ($(".country-group").length == 2){
+				   $('#clc-choose-country').parent(".modal-dialog").removeClass('modal-xl').addClass('modal-lg');
+				   $('.country-group').removeClass('col-lg-8').removeClass('col-lg-4').addClass('col-lg-12');
+
+				   //Fix UK alignment in CLC on SWD step2
+				   var clcEuropeList="#clc-choose-country #dvEmea_africa ul.country-options";
+				   if($(clcEuropeList).length > 0 && $(clcEuropeList).length < 3){
+				   	$(clcEuropeList).removeClass("col-lg-8").addClass("col-lg-10");
+				   }
+				}
+			} else {
+				$.each(jsonData, function(idx, obj) {
+					for (var key in obj.countrylist) {
+				       	var selectedCC = $('#clcSelectedCountry').attr('countrycode');
+				        if (obj.countrylist[key].countryCode == selectedCC) {
+				          	flagClass = obj.countrylist[key].countryInternationalName.replace(" ","-");
+							$('#clc-choose-language').find('#selectedCountryFlag').addClass(flagClass).addClass('flag');
+				        }
+					}
+				});
+
+	   // resize when any column is empty
+
+		if( $('#dvAmerica .hp-row ul:empty').length ){
+			$('#dvAmerica').remove();
+		}
+		if( $('#dvAsia .hp-row ul:empty').length ){
+			$('#dvAsia').remove();
+		}
+		if( $('#dvEmea_africa .hp-row ul:empty').length ){
+			$('#dvEmea_africa').remove();
+		}
+
+		if ($(".country-group").length == 1){
+			   $('#clc-choose-country').parent(".modal-dialog").removeClass('modal-xl').addClass('modal-sm');
+			   $('.country-group').removeClass('col-lg-8').removeClass('col-lg-4').addClass('col-lg-24');
+			}
+
+			if ($(".country-group").length == 2){
+			   $('#clc-choose-country').parent(".modal-dialog").removeClass('modal-xl').addClass('modal-lg');
+			   $('.country-group').removeClass('col-lg-8').removeClass('col-lg-4').addClass('col-lg-12');
+			}
+			}
+
+        }
+    });
+}
+
+
+function handleCountryClick(url,selectedCC){
+	$('#selected-language').text('');
+	$('#confirm-language').attr('disabled','disabled');
+	$('.language-options').empty();
+	$('#selectedCountryFlag').removeClass().addClass('flag');
+	$('#clc-choose-language').hide();
+	$('#clc-choose-country').show();
+			if ($(".country-group").length == 1){
+			   $('#clc-choose-country').parent(".modal-dialog").removeClass('modal-xl').addClass('modal-sm');
+			   $('.country-group').removeClass('col-lg-8').removeClass('col-lg-4').addClass('col-lg-24');
+			}
+
+			if ($(".country-group").length == 2){
+			   $('#clc-choose-country').parent(".modal-dialog").removeClass('modal-xl').addClass('modal-lg');
+			   $('.country-group').removeClass('col-lg-8').removeClass('col-lg-4').addClass('col-lg-12');
+			}
+	if ($(".country-group").length == 3){$('#clc-modal').find('.modal-dialog').removeClass('modal-sm').addClass('modal-xl');}
+	countrylistFetch(url,selectedCC, false);
+	//$('#clc-choose-country .hp-row h3').matchHeight();
+
+}
+
+
+
+
+
+
+function handleLocaleChangeClick(url,selectedCC){
+	//handleCountryNextClick(url,selectedCC,false);
+	$('#clc-choose-country').hide();
+	// $('#clc-choose-language').show();
+}
+
+function localeClick(url,countryUrl, selectedCC){
+    $('#clc-choose-country').hide();
+	// $('#clc-choose-language').show();
+    $('#clc-modal').modal();
+	$('#clc-modal').find('.modal-dialog').removeClass('modal-xl').addClass('modal-sm');
+	$('#selected-language').text('');
+	$('#confirm-language').attr('disabled','disabled');
+	//var data = countrylistFetch(countryUrl,selectedCC, true);
+
+	handleCountryNextClick(url,selectedCC,false);
+
+}
+
+function setPopupPosition(){
+	if($(window).height() < $('#dvClcModal').height()){
+		$('#dvClcModal').css('position','absolute');
+		if($(document).scrollTop() < $('#dvClcModal').scrollTop()+50){
+			$('#dvClcModal').css('top',($(document).scrollTop() + 30));
+		}
+		else{
+			$('#dvClcModal').css('top',$(document).scrollTop() - ($('#dvClcModal').height() + 30 - $(window).height()));
+		}
+	}
+	if($(window).width() < $('#dvClcModal').width()){
+		$('#dvClcModal').css('left','0px');
+	}
+}
+
+function handleCountryNextClick(url,cc,isDefaultLanguage){
+
+// $('.language-options').empty();
+
+	// $.ajax({
+	// 	data:{
+	// 	 'cc' : cc
+	// 	},
+ //        url: url ,
+ //        type: 'POST',
+ //        datatype:'json',
+ //        success: function(data){
+ //        	var jsonData = $.parseJSON(data);
+
+
+ //        	$('#clc-choose-country').hide();
+	// 		$('#clc-choose-language').show();
+	// 		$('#clc-modal').find('.modal-dialog').removeClass('modal-xl').addClass('modal-sm');
+
+
+ //        	$('.available-languages').append(createLangList(jsonData));
+ //        	if(isDefaultLanguage){
+ //        		$('.language-options li a:first-child').addClass('native');
+ //        	}
+ //        	else{
+ //        		var lc = getCCLC('lc');
+ //        		//var lc = document.location.href.split('com/')[1].split('/')[0].split('-')[1];
+ //        		$('.dvClcLang[languagecode='+lc+']').addClass('selectedLang');
+ //        		if(!$('.selectedLang')){
+ //        			$('#dvClcLanguages a:first-child').addClass('selectedLang');
+ //        		}
+ //        	}
+ //        	if($('ul.language-options li').length == 1){
+	// 			var selectedLanguage = $('.countryLink ').text();
+ //                $('.countryLink ').addClass('selected');
+	// 			$('#selected-language').text(selectedLanguage);
+	// 			$('#confirm-language').removeAttr('disabled');
+	// 		}
+
+ //        	$('.dvClcLang').on('tap click', function() {
+ //        	    $('.dvClcLanguages .dvClcLang').removeClass('selectedLang');
+ //        	    $(this).addClass('selectedLang');
+ //        	   // $('.bnClcConfirm').addC('background-color', '#0096d6');
+ //        	    $('.bnClcConfirm').addClass('selected');
+ //        	});
+
+
+
+
+ //        }
+ //    });
+}
+
+
+
+/* Create HTML template for languages */
+function createLangList(data) {
+
+
+
+       $.each(data.languages, function(idx, obj) {
+              var liItem = $('<li></li>');
+              var langList = $('<a></a>');
+              langList.attr('href','javascript:void(0);').attr('languageCode',obj.languageCode).addClass('countryLink');
+
+			  var language = $('<span></span>');
+              language.addClass('native').append(obj.localized_translation).append(" ");
+              var country = $('<span class="smallFont"></span>').append("- ").append(obj.languageName);
+              langList.append(language).append(country);
+			  liItem.append(langList);
+              $('.available-languages .language-options').append(liItem);
+
+       });
+
+	  $.each(data, function(idx, obj) {
+           flagClass = data.countryInternationalName.replace(" ","-");
+		   $('#clc-choose-language').find('#selectedCountryFlag').addClass(flagClass).addClass('flag');
+	});
+
+       $('.countryLink').on('tap click',function(event){
+            	$('#selected-language').text('');
+				$('#confirm-language').attr('disabled','disabled');
+          	    $(this).addClass('selected');
+          	   // $('.bnClcConfirm').addC('background-color', '#0096d6');
+          	    $('#clc-choose-language .language-options a').removeClass('selected');
+				$(this).addClass('selected');
+				var selectedLanguage = $(this).text();
+				$('#selected-language').text(selectedLanguage);
+				$('#confirm-language').removeAttr('disabled');
+              });
+
+}
+
+function resetViewsAndClasses(){
+	 $('#dvClcCountrySelect').removeClass('active');
+	 $('#dvClcCountries').hide();
+	 $('#dvClcLocaleSelect').removeClass('active');
+	 $('#dvClcLocale').hide();
+}
+
+function createCountrySection(data){
+
+   //For america 2 columns
+	var j=0;
+	//var dvEmea_africaHeader = $('#dvEmea_africaHeader');
+	$('#dvAmerica .hp-row').empty();
+	//$('#dvEmea_africa').append(dvEmea_africaHeader);
+	var americaUlElement = $('<ul class="country-options col-lg-12" id="americaList"/>');
+	// $.each(data.america.countrylist, function(idx, obj){
+	$.each(data, function(idx, obj){
+		if(obj.regionName == "Americas"){
+			$("#dvAmerica > h3").text(obj.regionTranslation);
+			$.each(obj.countries, function(idx, objVal){
+				if(j<15){
+					americaUlElement.append(createAmericaList(objVal));
+					j+=1;
+				}
+				else{
+					$('#dvAmerica .hp-row').append(americaUlElement);
+					americaUlElement = $('<ul class="country-options col-lg-12" id="americaList"/>');
+					americaUlElement.append(createAmericaList(objVal));
+					j=1;
+				}
+			});
+		}
+	});
+	$('#dvAmerica .hp-row').append(americaUlElement);
+
+
+	//May need to revisit the logic on making three rows.
+	var i=0;
+	//var dvEmea_africaHeader = $('#dvEmea_africaHeader');
+	$('#dvEmea_africa .hp-row').empty();
+	//$('#dvEmea_africa').append(dvEmea_africaHeader);
+	var emeaUlElement = $('<ul class="country-options col-lg-8" id="emeaList"/>');
+	// $.each(data.emea_africa.countrylist, function(idx, obj){
+	$.each(data, function(idx, obj){
+		if(obj.regionName == "Europe, Middle East, Africa"){
+			$("#dvEmea_africa > h3").text(obj.regionTranslation);
+			$.each(obj.countries, function(idx, objVal){
+				if(i<15){
+					emeaUlElement.append(createEmeaList(objVal));
+					i+=1;
+				}
+				else{
+					$('#dvEmea_africa .hp-row').append(emeaUlElement);
+					emeaUlElement = $('<ul class="country-options col-lg-8" id="emeaList"/>');
+					emeaUlElement.append(createEmeaList(objVal));
+					i=1;
+				}
+			});
+		}
+	});
+	$('#dvEmea_africa .hp-row').append(emeaUlElement);
+
+	var asiaUlElement = $('<ul class="country-options" id="asiaList"/>');
+	//var dvAsiaHeader = $('#dvAsiaHeader');
+	$('#dvAsia .hp-row').empty();
+	//$('#dvAsia').append(dvAsiaHeader);
+	$('#dvAsia .hp-row').append(createLocaleList(asiaUlElement,data));
+}
+
+function createEmeaList(obj){
+    var cc = getCCLC('cc');
+	var listItem = $('<li/>');
+	//var flagImage = $('<img/>');
+	var countryName = $('<a href="javascript:void(0);"/>');
+	var flagCountry = "";
+	if(obj.countryInternationalName.indexOf("-") >= 0){
+		flagCountry = obj.countryInternationalName;
+	}
+	else{
+		flagCountry = obj.countryInternationalName.replace(' ', '-');
+	}
+	var flagImage = $('<span class="flag flag-'+cc+' '+flagCountry+'"/>')
+	if(obj.flag){
+		//flagImage.attr('src',obj.flagPath);
+	}
+	else{
+		flagImage.addClass('flag-blank');
+	}
+	flagImage.addClass('clcCountriesFlag').attr('rel',obj.countryCode.toLowerCase()).attr('data-languagecode',obj.languagecode).attr('alt',obj.countryInternationalName);
+	// countryName.addClass('clcCountriesName').html(obj.localizedName);
+	countryName.addClass('clcCountriesName').html(obj.countryName);
+	countryName.on('tap click',function(event){
+		event.preventDefault();
+	    var selectedCountry = $(this).text();
+	    var selectedCountryFlag = $(this).find('.flag').attr('class');
+	    var totalLanguages = $('#clc-choose-language .language-options li').size();
+	    $('#clc-choose-language').find('#selectedCountry').text(selectedCountry);
+	    $('#clc-choose-language').find('#selectedCountryFlag').addClass(selectedCountryFlag);
+	    // Count the number of supported languages
+	    // and display them in the modal-title
+	    $('#totalLanguages').text(totalLanguages);
+	});
+	listItem.append(flagImage).append(countryName);
+	return listItem;
+}
+
+function createAmericaList(obj){
+    var cc = getCCLC('cc');
+	var listItem = $('<li/>');
+	//var flagImage = $('<img/>');
+	var countryName = $('<a href="javascript:void(0);"/>');
+	var flagCountry = "";
+	if(obj.countryInternationalName.indexOf("-") >= 0){
+		flagCountry = obj.countryInternationalName;
+	}
+	else{
+		flagCountry = obj.countryInternationalName.replace(' ', '-');
+	}
+	var flagImage = $('<span class="flag flag-'+cc+' '+flagCountry+'"/>')
+	if(obj.flag){
+		//flagImage.attr('src',obj.flagPath);
+	}
+	else{
+		flagImage.addClass('flag-blank');
+	}
+	flagImage.addClass('clcCountriesFlag').attr('rel',obj.countryCode.toLowerCase()).attr('data-languagecode',obj.languagecode).attr('alt',obj.countryInternationalName);
+	// countryName.addClass('clcCountriesName').html(obj.localizedName);
+	countryName.addClass('clcCountriesName').html(obj.countryName);
+	countryName.on('tap click',function(event){
+		event.preventDefault();
+	    var selectedCountry = $(this).text();
+	    var selectedCountryFlag = $(this).find('.flag').attr('class');
+	    var totalLanguages = $('#clc-choose-language .language-options li').size();
+	    $('#clc-choose-language').find('#selectedCountry').text(selectedCountry);
+	    $('#clc-choose-language').find('#selectedCountryFlag').addClass(selectedCountryFlag);
+	    // Count the number of supported languages
+	    // and display them in the modal-title
+	    $('#totalLanguages').text(totalLanguages);
+	});
+	listItem.append(flagImage).append(countryName);
+	return listItem;
+}
+
+
+function createLocaleList(ulItem,dataList){
+    $.each(dataList, function(idx, obj){
+		if(obj.regionName == "Asia Pacific & Oceania"){
+			$("#dvAsia > h3").text(obj.regionTranslation);
+			$.each(obj.countries, function(idx, objVal){
+				var cc = getCCLC('cc');
+	            var listItem = $('<li/>');
+	            //var flagImage = $('<img/>');
+	            var countryName = $('<a href="javascript:void(0);"/>');
+				var flagCountry = "";
+				if(objVal.countryInternationalName.indexOf("-") >= 0){
+					flagCountry = objVal.countryInternationalName;
+				}
+				else{
+					flagCountry = objVal.countryInternationalName.replace(' ', '-');
+				}
+				var flagImage = $('<span class="flag flag-'+cc+' '+flagCountry+'"/>');
+				if(objVal.flag){
+	                //flagImage.attr('src',obj.flagPath);
+	            }
+	            else{
+	                flagImage.addClass('flag-blank');
+	            }
+	            flagImage.addClass('clcCountriesFlag').attr('rel',objVal.countryCode.toLowerCase()).attr('data-languagecode',objVal.languagecode).attr('alt',objVal.countryInternationalName);
+	            // countryName.addClass('clcCountriesName').html(objVal.localizedName);
+	            countryName.addClass('clcCountriesName').html(objVal.countryName);
+	            countryName.on('tap click',function(event){
+		        	event.preventDefault();
+			        var selectedCountry = $(this).text();
+			        var selectedCountryFlag = $(this).find('.flag').attr('class');
+			        var totalLanguages = $('#clc-choose-language .language-options li').size();
+			        $('#clc-choose-language').find('#selectedCountry').text(selectedCountry);
+			        $('#clc-choose-language').find('#selectedCountryFlag').addClass(selectedCountryFlag);
+			        // Count the number of supported languages
+			        // and display them in the modal-title
+			        $('#totalLanguages').text(totalLanguages);
+	            });
+
+	  			listItem.append(flagImage).append(countryName);
+	            	ulItem.append(listItem);
+	        });
+	    }
+    });
+        return ulItem;
+}
+
+
+function clearSession(){
+
+		$.ajax({
+			url : sessionAjaxUrl,
+			type : 'GET',
+			async: false
+
+		});
+
+	}
+
+
+
+function checkConcentraFlow(data){
+
+	var dataJson = {
+					'cc' : $('#clcSelectedCountry').attr('countrycode'),
+					'lc' : $(".selectedCountryLang span").data("languagecode"),
+					'documentId' : $("#docId").val()
+
+				 }
+	var requestJson = JSON.stringify(dataJson);
+
+	console.log(requestJson);
+
+	$.ajax({
+	  	data:{requestJson:requestJson},
+        url: getChangedDocId,
+        type: 'POST',
+        datatype:'json',
+		async: "false",
+        success: function(data){
+
+            newDocID = data;
+			var cc = getCCLC('cc');
+			var lc = getCCLC('lc');
+
+			var selectedCC = $('#clcSelectedCountry').attr('countrycode');
+			var selectedLC = $(".selectedCountryLang span").data("languagecode");
+
+			var actualCCLC = 'com/'+cc+'-'+lc;
+			var newCCLC = 'com/'+selectedCC+'-'+selectedLC;
+			var url = document.URL;
+
+var newurl=url.substr((url.search( 'document' )), url.length-1).replace("document","").replace("/", "").replace("/", "").replace("?docNotFound=true","");
+				if(newurl.search(/\?/g) != -1){
+				newurl = newurl.split(/\?/g)[0];
+				}
+            //var newurl = url.substr(url.lastIndexOf('/') + 1);
+			document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace(newurl,newDocID).replace("?docNotFound=true","");
+
+
+			if((data == null) || (data == undefined) || (data == newurl) || (data== "")){
+					var docNotFound = window.location.href.indexOf("?sku") != -1 ? "&docNotFound=true" : "?docNotFound=true";
+					if(window.location.href.indexOf(docNotFound) > -1) {
+					   document.location.href = url;
+					}
+				else{
+					//document.location.href = url + docNotFound;
+					// The above line commented and IF, Else condition is added for ALM 12446
+					if(document.location.href.indexOf("?openCLC=true") > -1)
+					{
+						url = url.replace("?openCLC=true","");
+						document.location.href = url + docNotFound;
+					}
+				else
+					{
+					document.location.href = url + docNotFound;
+					}
+			}
+
+	}
+	else{
+	   var docNotFound = window.location.href.indexOf("?sku") != -1 ? "&docNotFound=true" : "?docNotFound=true";
+	   //document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace(newurl,newDocID).replace(docNotFound,"");
+	   //The above line commented and below code has been added for ALM 12446
+	   if(document.location.href.indexOf("?openCLC=true") > -1) {
+		   document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace(newurl,newDocID).replace(docNotFound,"").replace("?openCLC=true","");
+		}
+	else
+		{
+   document.location.href = document.location.href.replace(actualCCLC,newCCLC).replace(newurl,newDocID).replace(docNotFound,"");
+		}
+	//END of ALM 12446
+
+	}
+        }
+    });
+}
+
+
+		//change for concentra
+/*$('#dvCountryLink').on('click',function(event){
+	flagSet=true;
+	$(this).data('clicked', true);
+});
+
+$('#clc-modal').on('hidden.bs.modal', function () {
+
+});*/
+áÉ'ÒÕ?      Z[¾aZ] >¡³ñZdøà   J    :https://support.hp.com/wps/hp-support-common-portlets/resources/js/clc.js necko:classified 1 security-info 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 request-method GET request-Accept-Encoding gzip, deflate, br response-head HTTP/2.0 200 OK
+Server: nginx/1.10.3
+Content-Type: application/javascript
+Content-Length: 29685
+Last-Modified: Thu, 28 Sep 2017 09:31:12 GMT
+Vary: Accept-Encoding
+Etag: "59ccc160-73f5"
+Accept-Ranges: bytes
+Cache-Control: max-age=604800
+Expires: Sun, 21 Jan 2018 20:32:33 GMT
+Date: Sun, 14 Jan 2018 20:32:33 GMT
+X-Firefox-Spdy: h2
+ uncompressed-len 0   sõ

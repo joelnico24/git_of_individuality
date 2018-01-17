@@ -1,0 +1,117 @@
+<script>
+	var random, animal_sound, animal, guess;
+	var exit = false;
+	var animal_array = [" zebra", " giraffe", " elephant", " lion", " tiger", " hippo", " rabbit", " fish", " gazelle, "];
+	var sound_array = [" neigh", " brah brah", " shumph", " roar", " grrr", " yompy yompy yomp", " buma buma boing", " blub blub", " AHHHH A LION IS TRYING TO EAT ME, "];
+
+	var extra = prompt("add an animal to this list:" + animal_array);
+	var extra_sound = prompt("what sound does ur animal make?");
+
+	animal_array.push(extra);
+	sound_array.push(extra_sound);
+
+	var randomNum = function() {
+		random =  Math.floor(Math.random() * 10);
+	}
+
+		randomNum();
+
+		animal = animal_array[random];
+		animal_sound = sound_array[random];
+
+	while (exit != true) {
+		guess = prompt("guess an animal");
+		if (guess == animal) {
+			alert("congrats. it was " + animal);
+			exit = true;
+		} else {
+			alert("you got it wrong but here is the sound that it makes: " + animal_sound);
+		}
+	}
+
+	/* var exit = false;
+while (exit != true) {
+	var one = parseInt(prompt("enter a number"));
+	var two = parseInt(prompt("enter another number"));
+
+	function add() {
+		alert(one + two);
+	}
+	function subtract() {
+		alert(one - two);
+	}
+	function multiply() {
+		alert(one * two);
+	}
+	function divide(one, two) {
+		alert(one / two);
+	}
+	var type = prompt("do you want to add, subtract, multiply, or divide");
+	if (type == "+") {
+		add(one, two);
+	} else if (type == "-") {
+		subtract(one, two);
+	} else if (type == "*") {
+		multiply(one, two);
+	} else if (type == "/") {
+		divide(one, two);
+	} else {
+		alert("you are dumb because you typed something i don't understand.");
+	}
+	var end = prompt("do you want to exit");
+	if (end == "yes") {
+		exit = true;
+	}
+} */
+
+
+
+/* var one, two, type;
+var exit = false;
+
+function ask() {
+	one = parseInt(prompt("enter a number"));
+	two = parseInt(prompt("enter another number"));
+}
+
+function add() {
+		alert(one + two);
+}
+
+function subtract() {
+		alert(one - two);
+}
+
+function multiply() {
+		alert(one * two);
+}
+
+function divide() {
+		alert(one / two);
+}
+
+function calculate() {
+	type = prompt("do you want to add, subtract, multiply, or divide");
+
+	if (type == "+") {
+		add();
+	} else if (type == "-") {
+		subtract();
+	} else if (type == "*") {
+		multiply();
+	} else if (type == "/") {
+		divide();
+	} else {
+		alert("i don't understand");
+	}
+}
+
+while (exit != true) {
+	ask();
+	calculate();
+	var end = prompt("do you want to exit");
+	if (end == "yes") {
+		exit = true;
+	}
+} */
+</script>

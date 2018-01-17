@@ -1,0 +1,36 @@
+<script>
+	var noun = ["the golden gate bridge", "the old car", "the brand new mansion", "a blue toilet", "the leaf", "Obama's broken hips", "the fallen tree"];
+	var verb = ["loved", "killed", "punched", "jumped", "fell", "threw", "ripped"];
+	var somethingElse = ["above the bunny", "between you and me", "with the money", "off the deodorant", "on the roadblock", "aboard the Hitler express", "without your butt"];
+	var preposition = ["over", "inside", "at", "by", "underneath", "against", "below"];
+	var anotherThing = ["your useless brain", "the railroad crossing", "a xylophone", "buttcheeks", "the porta potty", "a plastic cup", "the junkyard"];
+	var random = function() {
+		return Math.floor(Math.random() * 7);
+	}
+	var sentence = function() {
+		alert(noun[random()] + " " + verb[random()] + " " + somethingElse[random()] + " " + preposition[random()] + " " + anotherThing[random()]);
+		sentence();
+	}
+	sentence();
+
+	/* var aGame, playing;
+	var gamePlaying = function() {
+		aGame = prompt("do you want to play a game?");
+		if (aGame == "yes") {
+			playGame();
+		} else {
+			alert("why do you have to be so mean.");
+		}
+	}
+	var playGame = function() {
+		playing = prompt("what is 10 + 9");
+		if (playing == "19") {
+			alert("what school did you go to? you're so dumb. it's 21, not 19");
+		} else if (playing == "21"){
+			alert("wow! i didn't think you were perfectly educated! you're right. it's 21!");
+		} else {
+			alert("you are completely wrong");
+		}
+	}
+	gamePlaying(); */
+</script>

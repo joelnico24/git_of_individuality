@@ -1,0 +1,48 @@
+<body class="black">
+	<style>
+		button {
+			font-size: 30px;
+			background-color: red;
+			color: yellow;
+			top: 300;
+			left: 500;
+		}
+
+		.black {
+			background-color: black;
+		}
+
+		.yellow {
+			background-color: yellow;
+		}
+	</style>
+	<script>
+		var moveButton = function() {
+			var randomX = Math.floor(Math.random() * (-100 - 100 + 1)) + 100;
+			var randomY = Math.floor(Math.random() * (-100 - 100 + 1)) + 100;
+			button.style.left = (event.clientX + randomX);
+			button.style.top = (event.clientY + randomY);
+			audio.play();
+		}
+		var clicked = function() {
+			document.body.classList = "yellow";
+			button.innerHTML = "You got me!";
+			audioTwo.play();
+			setTimeout(function(){
+				document.body.classList = "black";
+				button.innerHTML = "Try to click me!";
+			}, 5000);
+		}
+
+		var audio = new Audio("evilLaugh.mp3");
+		var audioTwo = new Audio("news_intro.mp3");
+		
+		var button = document.createElement("button");
+		button.innerHTML = "Try to click me";
+		button.onmouseover = moveButton;
+		button.onclick = clicked;
+		button.style.position = "absolute";
+		var body = document.getElementsByTagName("body")[0];
+		body.appendChild(button);
+	</script>
+</body>

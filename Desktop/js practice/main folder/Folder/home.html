@@ -1,0 +1,52 @@
+<head>
+	<script src="https://unpkg.com/vue"></script>
+	<link rel="stylesheet" type="text/css" href="home.css">
+</head>
+
+<body>
+	<div id="app">
+		<div class="container-fluid">
+			<input type="text" v-model="title">
+			<h1 :class="colorClass">{{title}}</h1>
+			<button v-on:click="changeColor">Toggle</button>
+			<p v-for="friend in friends">{{friend.name}} -- {{friend.age}} -- {{friend.eyes}}</p>
+		</div>
+	</div>
+</body>
+
+<script>
+	var app = new Vue ({
+		el: "#app",
+		data: {
+			title: "Die in a hole!",
+			friends: 
+			[
+				{
+					name: "bill",
+					age: "1",
+					eyes: "a color"
+				},
+				{
+					name: "billy",
+					age: "2",
+					eyes: "a color"
+				},
+				{
+					name: "billster",
+					age: "3",
+					eyes: "a color"
+				}
+			],
+		    colorClass: "blue"
+		},
+		methods: {
+			changeColor: function() {
+				if (this.colorClass == "blue"){
+					this.colorClass = "red";
+				} else {
+					this.colorClass = "blue"
+				}
+			}
+		}
+	})
+</script>

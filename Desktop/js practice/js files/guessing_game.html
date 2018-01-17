@@ -1,0 +1,42 @@
+<script>
+var num = Math.floor(Math.random() * 10) + 1;
+	var tries = 0;
+	var guess = null;
+	var allGuesses = [];
+	guess = prompt("guess a number between 1 and 10");
+		tries += 1;
+		if (num == guess && tries == 1) {
+			alert("you got it on your 1st try! it was " + num);
+	 	}
+		if (num == guess && tries > 5) {
+			alert("you are an idiot. you got it in " + tries + " tries! go away!!");
+		}
+		if (num == guess && tries < 5) {
+			alert("you got it right in " + tries + " tries. the number was " + num);
+		}
+		allGuesses += guess;
+		if (allGuesses.length > 0) {
+			allGuesses += ",";
+			allGuesses += " ";
+		}
+while (num != guess) {
+	guess = prompt("try again");
+	tries += 1;
+	
+	if (num == guess && tries == 1) {
+		alert("you got it on your 1st try! it was " + num);
+	}
+	if (num == guess && tries > 5) {
+		alert("you are an idiot. you got it in " + tries + " tries! go away!!");
+	}
+	if (num == guess && tries < 5) {
+		alert("you got it right in " + tries + " tries. the number was " + num);
+	}
+	allGuesses += guess;
+	if (allGuesses.length > 0 && guess != num) {
+		allGuesses += ",";
+		allGuesses += " ";
+	}
+}
+alert("you guessed " + allGuesses);
+</script>

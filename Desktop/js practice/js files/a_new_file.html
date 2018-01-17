@@ -1,0 +1,180 @@
+<script>
+	//first and last names program: functions
+	/* var firstName, lastName;
+	function names() {
+		firstName = prompt("whats ur first name");
+		lastName = prompt("whats ur last name");
+		alert("hello " + firstName + " " + lastName);
+	}
+	names(); */
+
+
+	//ask for three numbers;multiply, divide, and add them: functions
+	/* var num1, num2, num3;
+	function nums() {
+		num1 = parseInt(prompt("give me a number"));
+		num2 = parseInt(prompt("give me another number"));
+		num3 = parseInt(prompt("give me another number"));
+	}
+	function multiply() {
+		return num1 * num2 * num3;
+	}
+	function divide() {
+		return num1 / num2 / num3;
+	}
+	function add() {
+		return num1 + num2 + num3;
+	}
+	nums();
+	console.log(multiply());
+	console.log(divide());
+	console.log(add()); */
+
+
+	//guess a number between 1 and 10;unlimited guesses, new random number every guess: functions
+	/* var randomNum, guess;
+	function randomNumber() {
+		randomNum = Math.floor(Math.random() * 10) + 1;
+	}
+	function attempt() {
+		guess = prompt("guess a number between 1 and 10");
+		whileLoop();
+	}
+	function whileLoop() {
+		if (randomNum == guess) {
+			alert("you got it");
+		} else {
+			alert("nope");
+			randomNumber();
+			attempt();
+		}
+	}
+	randomNumber();
+	attempt(); */
+
+	//calculator with functions; and a chance to continue, start a new problem, or exit
+	var num1, num2, num3, num4, type, cont, end;
+	var exit = false;
+	function numbers() {
+		num1 = parseInt(prompt("enter a number"));
+		type = prompt("do you want to add, subtract, multiply, or divide");
+		num2 = parseInt(prompt("enter another number"));
+		if (type == "+") {
+			add();
+		} else if (type == "-") {
+			subtract();
+		} else if (type == "*") {
+			multiply();
+		} else if (type == "/") {
+			divide();
+		} else {
+			alert("what?");
+			numbers();
+		}
+	}
+	function add() {
+		num3 = num1 + num2;
+		alert(num3);
+		cont = prompt("do you want to continue with this number or start a new one or exit?(c,n,e)");
+		if (cont == "c") {
+			continueFunction();
+		} else if (cont == "n") {
+			numbers();
+		} else if (cont == "e") {
+			exit = true;
+		} else {
+			alert("what?");
+			numbers();
+		}
+	}
+	function subtract() {
+		num3 = num1 - num2;
+		alert(num3);
+		cont = prompt("do you want to continue with this number or start a new one or exit?(c,n,e)");
+		if (cont == "c") {
+			continueFunction();
+		} else if (cont == "n") {
+			numbers();
+		} else if (cont == "e") {
+			exit = true;
+		} else {
+			alert("what?");
+			numbers();
+		}
+	}
+	function multiply() {
+		num3 = num1 * num2;
+		alert(num3);
+		cont = prompt("do you want to continue with this number or start a new one or exit?(c,n,e)");
+		if (cont == "c") {
+			continueFunction();
+		} else if (cont == "n") {
+			numbers();
+		} else if (cont == "e") {
+			exit = true;
+		} else {
+			alert("what?");
+			numbers();
+		}
+	}
+	function divide() {
+		num3 = num1 / num2;
+		alert(num3);
+		cont = prompt("do you want to continue with this number or start a new one or exit?(c,n,e)");
+		if (cont == "c") {
+			continueFunction();
+		} else if (cont == "n") {
+			numbers();
+		} else if (cont == "e") {
+			exit = true;
+		} else {
+			alert("what?");
+			numbers();
+		}
+	}
+	function continueFunction() {
+		type = prompt("do you want to add, subtract, multiply, or divide");
+		num4 = parseInt(prompt("enter the number"));
+		if (type == "+") {
+			alert(num3 + num4);
+			end = prompt("do you want to exit");
+			if (end == "yes") {
+				exit = true;
+			} else {
+				alert("back to the beginning!");
+				numbers();
+			}
+		} else if (type == "-") {
+			alert(num3 - num4);
+			end = prompt("do you want to exit");
+			if (end == "yes") {
+				exit = true;
+			} else {
+				alert("back to the beginning!");
+				numbers();
+			}
+		} else if (type == "*") {
+			alert(num3 * num4);
+			end = prompt("do you want to exit");
+			if (end == "yes") {
+				exit = true;
+			} else {
+				alert("back to the beginning!");
+				numbers();
+			}
+		} else if (type == "/") {
+			alert(num3 / num4);
+			end = prompt("do you want to exit");
+			if (end == "yes") {
+				exit = true;
+			} else {
+				alert("back to the beginning!");
+				numbers();
+			}
+		} else {
+			alert("what?");
+			numbers();
+		}
+	}
+	numbers();
+</script>

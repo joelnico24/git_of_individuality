@@ -1,0 +1,58 @@
+<body class="black">
+<style>
+	div {
+		top: 300;
+		left: 500;
+	}
+	.black {
+		background-color: black;
+	}
+	.green {
+		background-color: green;
+	}
+	.red {
+		background-color: #b70101;
+	}
+</style>
+<script>
+	var num;
+	var audio = new Audio("yes.mp3");
+	var audioTwo = new Audio("no.mp3");
+	var random = function() {
+		num = Math.floor(Math.random() * 10) + 1;
+	}
+	var statement = function() {
+		if (num == input.value) {
+			document.body.classList = "green";
+			audio.play();
+			setTimeout(function(){
+				alert("This is a new game");
+				document.body.classList = "black";
+				random();
+			}, 500);
+		} else {
+			document.body.classList = "red";
+			audioTwo.play();
+			setTimeout(function(){
+				document.body.classList = "black";
+			}, 500);
+		}
+	}
+	
+	var div = document.createElement("div");
+	div.style.position = "absolute";
+	document.body.appendChild(div);
+
+	var input = document.createElement("input");
+	input.placeholder = "Enter a 1 thru 10 number";
+	input.type = "text";
+	div.appendChild(input);
+
+	var button = document.createElement("button");
+	button.innerHTML = "Submit Guess";
+	button.onclick = statement;
+	div.appendChild(button);
+
+	random();
+</script>
+</body>

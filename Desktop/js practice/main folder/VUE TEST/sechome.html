@@ -1,0 +1,63 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+	<h1>{{msg}}</h1>
+	<input type="text" v-model="bgColorClass"><br><br>
+	<input type="text" v-model="boxMsg"><br><br>
+	<div class="square dashed-border" v-bind:class="bgColorClass">{{boxMsg}}</div>
+	<div class="square" :class="{red: hot, blue: cold}"></div>
+</div>
+
+<script>
+var app = new Vue({
+	el: "#app",
+	data: {
+		msg: "Hello from Vue!",
+		bgColorClass: 'red',
+		boxMsg: "I am in a box.",
+		cold: true,
+		hot: false
+	}
+})
+</script>
+
+<style>
+.square {
+	width: 200px;
+	height: 200px;
+	margin-bottom: 20px;
+}
+.blue {
+	background-color: blue;
+}
+.red {
+	background-color: red;
+}
+.yellow {
+	background-color: yellow;
+}
+.green {
+	background-color: green;
+}
+.brown {
+	background-color: brown;
+}
+.orange {
+	background-color: orange;
+}
+.cyan {
+	background-color: cyan;
+}
+.darkblue {
+	background-color: darkblue;
+}
+.purple {
+	background-color: purple;
+}
+.violet {
+	background-color: violet;
+}
+.dashed-border {
+	border: dashed 4px black;
+}
+</style>
