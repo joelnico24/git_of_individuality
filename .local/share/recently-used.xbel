@@ -43,4 +43,24 @@
       </metadata>
     </info>
   </bookmark>
+  <bookmark href="file:///home/joelnico24/Desktop/git_of_individuality" added="2018-01-17T00:47:52Z" modified="2018-01-17T00:47:52Z" visited="2018-01-17T00:47:53Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="inode/directory"/>
+        <bookmark:applications>
+          <bookmark:application name="Sublime Text" exec="&apos;sublime_text %u&apos;" modified="2018-01-17T00:47:52Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/joelnico24/Desktop/git_of_individuality/individuality.html" added="2018-01-17T00:48:31Z" modified="2018-01-17T00:48:31Z" visited="2018-01-17T00:48:31.925930Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/html"/>
+        <bookmark:applications>
+          <bookmark:application name="Sublime Text" exec="&apos;sublime_text %u&apos;" modified="2018-01-17T00:48:31Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
 </xbel>

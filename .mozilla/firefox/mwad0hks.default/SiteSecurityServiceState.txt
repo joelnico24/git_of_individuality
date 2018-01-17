@@ -24,8 +24,8 @@ ca1.qualtrics.com:HSTS	0	17545	1547497961692,1,1
 versioncheck-bg.addons.mozilla.org:HSTS	1	17547	1516122479852,1,0
 shavar.services.mozilla.com:HSTS	3	17548	1547685073284,1,1
 versioncheck-bg.addons.mozilla.org:HPKP	1	17547	1521306179853,1,1,WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=r/mIkG3eEpVdm+u/ko/cwxzOMo1bk4TyHIlByibiA5E=
-api.github.com:HSTS	2	17548	1547683998335,1,1
-github.com:HSTS	2	17548	1547683997016,1,1
+api.github.com:HSTS	2	17548	1547685458287,1,1
+github.com:HSTS	2	17548	1547685457194,1,1
 um.simpli.fi:HSTS	0	17546	1579116684911,1,1
 self-repair.mozilla.org:HSTS	3	17548	1547683996860,1,1
 meta.wikimedia.org:HSTS	0	17546	1622428517733,1,1
@@ -42,7 +42,7 @@ aus5.mozilla.org:HSTS	2	17547	1547681485110,1,0
 s.yimg.com:HSTS	0	17547	1531697492331,1,0
 www.google.com:HSTS	2	17547	1516231567092,1,0
 search.yahoo.com:HSTS	0	17547	1547681492115,1,0
-collector.githubapp.com:HSTS	2	17548	1547683998010,1,0
+collector.githubapp.com:HSTS	2	17548	1547685458179,1,0
 www.google-analytics.com:HSTS	0	17546	1526930492977,1,1
 events.apester.com:HSTS	0	17546	1547580677171,1,0
 geo.yahoo.com:HSTS	0	17547	1531697492439,1,0
